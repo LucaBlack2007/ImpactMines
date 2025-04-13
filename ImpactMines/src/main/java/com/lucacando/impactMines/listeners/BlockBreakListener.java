@@ -23,9 +23,11 @@ public class BlockBreakListener implements Listener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
         Player player = e.getPlayer();
-        Map<Material, ItemStack> blocks = translateBlocks(player);
 
+        if (player.getInventory().getItemInMainHand() == null) return;
         if (!main.isTool(player.getInventory().getItemInMainHand())) return;
+
+        Map<Material, ItemStack> blocks = translateBlocks(player);
         if (!blocks.containsKey(e.getBlock().getType())) return;
 
         e.setDropItems(false);
@@ -43,6 +45,7 @@ public class BlockBreakListener implements Listener {
             int random = lowerBound * new Random().nextInt(fortune);
             amount = random;
         }
+        if (amount == 0) amount = 1;
 
         // fortune 5 -> 3x 6x
 

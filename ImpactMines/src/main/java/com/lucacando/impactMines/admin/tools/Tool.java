@@ -30,7 +30,7 @@ public class Tool {
         List<String> itemLore = main.stringsToLore(lore);
         itemLore.add(ChatColor.GREEN + " ");
         itemLore.add(ChatColor.BLUE + "Fortune: " + ChatColor.GOLD + fortuneLevel);
-        itemLore.add(ChatColor.BLUE + "Mining Power" + ChatColor.RED + ": " + miningPower);
+        itemLore.add(ChatColor.BLUE + "Mining Power: " + ChatColor.RED + miningPower);
         meta.setLore(itemLore);
 
         meta.setUnbreakable(true);

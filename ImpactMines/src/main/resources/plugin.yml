@@ -23,3 +23,9 @@ commands:
     aliases:
       - toolselection
       - tools
+  minewand:
+    description: Gives player a mine wand to create a mine selection.
+  fillmine:
+    description: Fills a mine that's been selected by the player.
+  removemine:
+    description: Completely removes a mine from the world.

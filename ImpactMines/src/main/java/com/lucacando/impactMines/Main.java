@@ -10,19 +10,34 @@ import com.lucacando.impactMines.admin.tools.ToolCommand;
 import com.lucacando.impactMines.listeners.BlockBreakListener;
 import com.lucacando.impactMines.listeners.ChatListener;
 import com.lucacando.impactMines.listeners.FirstJoinListener;
+import com.lucacando.impactMines.listeners.JoinLeaveListener;
+import com.lucacando.impactMines.mines.Mine;
+import com.lucacando.impactMines.mines.MineRegenerationTask;
+import com.lucacando.impactMines.mines.MineWandListener;
+import com.lucacando.impactMines.mines.Selection;
+import com.lucacando.impactMines.mines.commands.FillMineCommand;
+import com.lucacando.impactMines.mines.commands.MineWandCommand;
+import com.lucacando.impactMines.mines.commands.RemoveMineCommand;
 import com.lucacando.impactMines.ranks.Rank;
 import com.lucacando.impactMines.ranks.RankCommand;
+import com.lucacando.impactMines.shop.ChestShopCreation;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 public final class Main extends JavaPlugin {
 
@@ -30,6 +45,11 @@ public final class Main extends JavaPlugin {
     public String prefix = ChatColor.translateAlternateColorCodes('&',
             "&8&l[&bImpactMines&8&l] &9");
     public String noPermission = prefix + ChatColor.RED + "You do not have permission.";
+    public Map<UUID, Selection> selections = new HashMap<>();
+    public List<Mine> activeMines = new ArrayList<>();
+
+    private File minesFile;
+    public FileConfiguration minesConfig;
 
     @Override
     public void onEnable() {
@@ -39,6 +59,13 @@ public final class Main extends JavaPlugin {
         saveDefaultConfig();
         getConfig().options().copyDefaults(true);
         saveConfig();
+
+        getCommand("removemine").setExecutor(new RemoveMineCommand(this));
+        getCommand("minewand").setExecutor(new MineWandCommand(this));
+        getCommand("fillmine").setExecutor(new FillMineCommand(this));
+        getServer().getPluginManager().registerEvents(new MineWandListener(this), this);
+        loadMines();
+        new MineRegenerationTask(this).runTaskTimer(this, 15 * 20L, 15 * 20L);
 
         getCommand("rank").setExecutor(new RankCommand(this, "/rank [player] [<rank>]"));
         getCommand("reloadplayers").setExecutor(new ReloadPlayersCommand(this));
@@ -55,7 +82,87 @@ public final class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new RankCommand(this), this);
         getServer().getPluginManager().registerEvents(new ToolCommand(this), this);
         getServer().getPluginManager().registerEvents(new BlockBreakListener(this), this);
+        getServer().getPluginManager().registerEvents(new ChestShopCreation(this), this);
+        getServer().getPluginManager().registerEvents(new JoinLeaveListener(this), this);
     }
+
+    @Override
+    public void onDisable() {
+        saveMines();
+    }
+
+    public void loadMines() {
+        minesFile = new File(getDataFolder(), "mines.yml");
+        if (!minesFile.exists()) {
+            getDataFolder().mkdirs();
+            saveResource("mines.yml", false);
+        }
+        minesConfig = YamlConfiguration.loadConfiguration(minesFile);
+        activeMines.clear();
+
+        // Assuming mines are stored under "mines" as individual entries (mine0, mine1, etc.)
+        if (minesConfig.contains("mines")) {
+            ConfigurationSection section = minesConfig.getConfigurationSection("mines");
+            for (String key : section.getKeys(false)) {
+                try {
+                    String worldName = minesConfig.getString("mines." + key + ".world");
+                    World world = getServer().getWorld(worldName);
+                    if (world == null) {
+                        getLogger().warning("World '" + worldName + "' not found for mine " + key);
+                        continue;
+                    }
+                    int pos1X = minesConfig.getInt("mines." + key + ".pos1.x");
+                    int pos1Y = minesConfig.getInt("mines." + key + ".pos1.y");
+                    int pos1Z = minesConfig.getInt("mines." + key + ".pos1.z");
+                    int pos2X = minesConfig.getInt("mines." + key + ".pos2.x");
+                    int pos2Y = minesConfig.getInt("mines." + key + ".pos2.y");
+                    int pos2Z = minesConfig.getInt("mines." + key + ".pos2.z");
+                    org.bukkit.Location pos1 = new org.bukkit.Location(world, pos1X, pos1Y, pos1Z);
+                    org.bukkit.Location pos2 = new org.bukkit.Location(world, pos2X, pos2Y, pos2Z);
+                    String b1Str = minesConfig.getString("mines." + key + ".block1");
+                    String b2Str = minesConfig.getString("mines." + key + ".block2");
+                    org.bukkit.Material block1 = org.bukkit.Material.matchMaterial(b1Str);
+                    org.bukkit.Material block2 = org.bukkit.Material.matchMaterial(b2Str);
+                    if (block1 == null || block2 == null) {
+                        getLogger().warning("Invalid block types for mine " + key);
+                        continue;
+                    }
+                    Mine mine = new Mine(world, pos1, pos2, block1, block2);
+                    // Optionally, you can refill the mine immediately or rely on player mining to change blocks.
+                    activeMines.add(mine);
+                } catch (Exception e) {
+                    getLogger().warning("Error loading mine " + key + ": " + e.getMessage());
+                }
+            }
+        }
+        getLogger().info("Loaded " + activeMines.size() + " mines.");
+    }
+
+    public void saveMines() {
+        // Clear existing data
+        minesConfig.set("mines", null);
+        for (int i = 0; i < activeMines.size(); i++) {
+            Mine mine = activeMines.get(i);
+            String key = "mines.mine" + i;
+            minesConfig.set(key + ".world", mine.getWorld().getName());
+            // Save the two corner positions (using min and max from mine)
+            minesConfig.set(key + ".pos1.x", mine.getMin().getBlockX());
+            minesConfig.set(key + ".pos1.y", mine.getMin().getBlockY());
+            minesConfig.set(key + ".pos1.z", mine.getMin().getBlockZ());
+            minesConfig.set(key + ".pos2.x", mine.getMax().getBlockX());
+            minesConfig.set(key + ".pos2.y", mine.getMax().getBlockY());
+            minesConfig.set(key + ".pos2.z", mine.getMax().getBlockZ());
+            minesConfig.set(key + ".block1", mine.getBlock1().name());
+            minesConfig.set(key + ".block2", mine.getBlock2().name());
+        }
+        try {
+            minesConfig.save(minesFile);
+            getLogger().info("Mines saved.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
     public String formatPlayerName(Player player) {

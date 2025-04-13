@@ -19,7 +19,8 @@ public enum Rank {
     MOD("MOD", ChatColor.DARK_GREEN, "&8[&2MOD&8] ", Material.GREEN_WOOL, true, 4),
     BUILDER("BUILDER", ChatColor.YELLOW, "&8[&eBUILDER&8] ", Material.YELLOW_WOOL, true, 4),
     ADMIN("ADMIN", ChatColor.RED, "&8[&cADMIN&8] ", Material.RED_WOOL, true, 5),
-    OWNER("OWNER", ChatColor.DARK_RED, "&8[&4OWNER&8] ", Material.REDSTONE_BLOCK, true, 10);
+    COOWNER("COOWNER",ChatColor.LIGHT_PURPLE, "&8[&d&lCO-OWNER&8] ", Material.PINK_WOOL, true, 9),
+    OWNER("OWNER", ChatColor.DARK_RED, "&8[&4&lOWNER&8] ", Material.REDSTONE_BLOCK, true, 10);
 
     private String name;
     private ChatColor color;
