@@ -1,0 +1,6 @@
+com/lucacando/impactMines/ranks/Rank.class
+com/lucacando/impactMines/Main.class
+com/lucacando/impactMines/listeners/FirstJoinListener.class
+com/lucacando/impactMines/ranks/RankCommand.class
+com/lucacando/impactMines/admin/ReloadPlayersCommand.class
+com/lucacando/impactMines/listeners/ChatListener.class
