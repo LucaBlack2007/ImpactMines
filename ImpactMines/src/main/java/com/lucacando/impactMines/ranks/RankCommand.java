@@ -32,6 +32,9 @@ public class RankCommand implements CommandExecutor, Listener {
         this.main = main;
         this.usage = main.prefix + usage;
     }
+    public RankCommand(Main main) {
+        this.main = main;
+    }
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 

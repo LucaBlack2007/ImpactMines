@@ -1,10 +1,13 @@
-com/lucacando/impactMines/admin/gamemode/GamemodeAdventure.class
 com/lucacando/impactMines/admin/gamemode/GamemodeCreative.class
-com/lucacando/impactMines/ranks/Rank.class
 com/lucacando/impactMines/Main.class
 com/lucacando/impactMines/admin/gamemode/GamemodeSurvival.class
+com/lucacando/impactMines/listeners/BlockBreakListener.class
 com/lucacando/impactMines/listeners/FirstJoinListener.class
 com/lucacando/impactMines/ranks/RankCommand.class
+com/lucacando/impactMines/admin/tools/ToolCommand.class
+com/lucacando/impactMines/admin/gamemode/GamemodeSpectator.class
+com/lucacando/impactMines/admin/gamemode/GamemodeAdventure.class
+com/lucacando/impactMines/ranks/Rank.class
+com/lucacando/impactMines/admin/tools/Tool.class
 com/lucacando/impactMines/admin/ReloadPlayersCommand.class
 com/lucacando/impactMines/listeners/ChatListener.class
-com/lucacando/impactMines/admin/gamemode/GamemodeSpectator.class

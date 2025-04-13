@@ -18,3 +18,8 @@ commands:
     description: Command to set player's gamemode to spectator.
   gma:
     description: Command to set player's gamemode to adventure.
+  toolselect:
+    description: Admin command to give tools.
+    aliases:
+      - toolselection
+      - tools
