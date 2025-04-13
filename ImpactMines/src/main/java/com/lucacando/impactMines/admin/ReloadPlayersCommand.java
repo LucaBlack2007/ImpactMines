@@ -20,7 +20,7 @@ public class ReloadPlayersCommand implements CommandExecutor {
 
         if (sender.isOp()) {
             Bukkit.getOnlinePlayers().forEach(p -> main.instantiatePlayer(p));
-            sender.sendMessage(main.prefix + "All players loaded.");
+            sender.sendMessage(main.prefix + "All players reloaded.");
         }
 
         return false;

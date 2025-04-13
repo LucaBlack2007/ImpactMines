@@ -9,4 +9,12 @@ commands:
   reloadplayers:
     description: Loads all players.
   rank:
-    description: Rank command.
+    description: Command to set player's ranks.
+  gmc:
+    description: Command to set player's gamemode to creative.
+  gms:
+    description: Command to set player's gamemode to survival.
+  gmsp:
+    description: Command to set player's gamemode to spectator.
+  gma:
+    description: Command to set player's gamemode to adventure.

@@ -1,5 +1,9 @@
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/Main.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/admin/ReloadPlayersCommand.java
+/Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/admin/gamemode/GamemodeAdventure.java
+/Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/admin/gamemode/GamemodeCreative.java
+/Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/admin/gamemode/GamemodeSpectator.java
+/Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/admin/gamemode/GamemodeSurvival.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/listeners/ChatListener.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/listeners/FirstJoinListener.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/ranks/Rank.java
