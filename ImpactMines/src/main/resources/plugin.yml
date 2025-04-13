@@ -1,0 +1,7 @@
+name: ImpactMines
+version: '1.0'
+main: com.lucacando.impactMines.Main
+api-version: '1.21'
+authors: [ Luca Black ]
+description: Mod for different QOL features used in survival minecraft.
+website: https://lucacando.com
