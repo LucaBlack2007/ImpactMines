@@ -7,6 +7,8 @@ import com.lucacando.impactMines.admin.gamemode.GamemodeSpectator;
 import com.lucacando.impactMines.admin.gamemode.GamemodeSurvival;
 import com.lucacando.impactMines.admin.tools.Tool;
 import com.lucacando.impactMines.admin.tools.ToolCommand;
+import com.lucacando.impactMines.discord.DiscordChatListener;
+import com.lucacando.impactMines.discord.DiscordListener;
 import com.lucacando.impactMines.listeners.BlockBreakListener;
 import com.lucacando.impactMines.listeners.ChatListener;
 import com.lucacando.impactMines.listeners.FirstJoinListener;
@@ -21,6 +23,11 @@ import com.lucacando.impactMines.mines.commands.RemoveMineCommand;
 import com.lucacando.impactMines.ranks.Rank;
 import com.lucacando.impactMines.ranks.RankCommand;
 import com.lucacando.impactMines.shop.ChestShopCreation;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.OnlineStatus;
+import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -50,6 +57,7 @@ public final class Main extends JavaPlugin {
 
     private File minesFile;
     public FileConfiguration minesConfig;
+    public JDA jda;
 
     @Override
     public void onEnable() {
@@ -77,6 +85,7 @@ public final class Main extends JavaPlugin {
 
         getCommand("toolselect").setExecutor(new ToolCommand(this, "/tool [<player>]"));
 
+        getServer().getPluginManager().registerEvents(new DiscordChatListener(this), this);
         getServer().getPluginManager().registerEvents(new ChatListener(this), this);
         getServer().getPluginManager().registerEvents(new FirstJoinListener(this), this);
         getServer().getPluginManager().registerEvents(new RankCommand(this), this);
@@ -84,6 +93,26 @@ public final class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BlockBreakListener(this), this);
         getServer().getPluginManager().registerEvents(new ChestShopCreation(this), this);
         getServer().getPluginManager().registerEvents(new JoinLeaveListener(this), this);
+
+        JDABuilder builder = JDABuilder.createDefault("MTM2MTEyNjI5ODEwMTA5MjQ5NA.GRVWtK.MDoe5CWJ_S9g97Y8ikuTdkDuUk9xMGgePSi1YY");
+        builder.setActivity(Activity.watching("your server."));
+        builder.setStatus(OnlineStatus.ONLINE);
+        builder.addEventListeners(new DiscordListener());
+        builder.setEnabledIntents(GatewayIntent.GUILD_MESSAGES,
+                GatewayIntent.MESSAGE_CONTENT,
+                GatewayIntent.GUILD_VOICE_STATES,
+                GatewayIntent.GUILD_EXPRESSIONS,
+                GatewayIntent.SCHEDULED_EVENTS
+        );
+
+
+
+        try {
+            jda = builder.build();
+            System.out.println("Successfully imported discord API!");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

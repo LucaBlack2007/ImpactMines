@@ -6,6 +6,8 @@
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/admin/gamemode/GamemodeSurvival.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/admin/tools/Tool.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/admin/tools/ToolCommand.java
+/Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/discord/DiscordChatListener.java
+/Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/discord/DiscordListener.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/listeners/BlockBreakListener.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/listeners/ChatListener.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/listeners/FirstJoinListener.java

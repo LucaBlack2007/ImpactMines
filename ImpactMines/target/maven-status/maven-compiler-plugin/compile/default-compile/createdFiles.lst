@@ -1,5 +1,6 @@
 com/lucacando/impactMines/admin/gamemode/GamemodeCreative.class
 com/lucacando/impactMines/admin/gamemode/GamemodeSurvival.class
+com/lucacando/impactMines/discord/DiscordListener.class
 com/lucacando/impactMines/ranks/RankCommand.class
 com/lucacando/impactMines/admin/tools/ToolCommand.class
 com/lucacando/impactMines/admin/gamemode/GamemodeAdventure.class
@@ -16,6 +17,7 @@ com/lucacando/impactMines/listeners/BlockBreakListener.class
 com/lucacando/impactMines/listeners/FirstJoinListener.class
 com/lucacando/impactMines/mines/commands/RemoveMineCommand.class
 com/lucacando/impactMines/admin/gamemode/GamemodeSpectator.class
+com/lucacando/impactMines/discord/DiscordChatListener.class
 com/lucacando/impactMines/mines/Selection.class
 com/lucacando/impactMines/mines/commands/MineWandCommand.class
 com/lucacando/impactMines/mines/MineWandListener.class
