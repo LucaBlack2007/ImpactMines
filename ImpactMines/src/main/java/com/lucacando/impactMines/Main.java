@@ -38,6 +38,7 @@ import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -47,10 +48,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.*;
 
 public final class Main extends JavaPlugin {
 
+    public Map<String, Command> knownCommands;
     public Map<UUID, UUID> selectedTemp = new HashMap<>();
     public String prefix = ChatColor.translateAlternateColorCodes('&',
             "&8&l[&bImpactMines&8&l] &9");
@@ -67,6 +70,8 @@ public final class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         getLogger().info("ImpactMines core plugin has been enabled!");
+
+        registerNoPermissionMessages();
 
         if (!getDataFolder().exists()) getDataFolder().mkdir();
         saveDefaultConfig();
@@ -206,7 +211,27 @@ public final class Main extends JavaPlugin {
         }
     }
 
-
+    public void registerNoPermissionMessages() {
+        try {
+            Field commandMapField = Bukkit.getServer().getClass().getDeclaredField("commandMap");
+            commandMapField.setAccessible(true);
+            SimpleCommandMap commandMap = (SimpleCommandMap) commandMapField.get(Bukkit.getServer());
+            Field knownCommandsField = SimpleCommandMap.class.getDeclaredField("knownCommands");
+            knownCommandsField.setAccessible(true);
+            knownCommands = (Map<String, Command>) knownCommandsField.get(commandMap);
+            for (Command cmd : knownCommands.values()) {
+                cmd.setPermissionMessage(prefix + "You don't have permission to use this command.");
+            }
+            for (Command cmd : knownCommands.values()) {
+                String usage = cmd.getUsage();
+                if (usage != null && !usage.isEmpty()) {
+                    cmd.setUsage(prefix + "Incomplete command. Correct usage: " + usage);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public String formatPlayerName(Player player) {
         Rank rank = getPlayerRank(player);
