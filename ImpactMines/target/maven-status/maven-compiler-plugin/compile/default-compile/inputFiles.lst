@@ -19,6 +19,9 @@
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/mines/commands/FillMineCommand.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/mines/commands/MineWandCommand.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/mines/commands/RemoveMineCommand.java
+/Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/playervaults/InventoryListener.java
+/Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/playervaults/PlayerVaultCommand.java
+/Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/playervaults/VaultManager.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/ranks/Rank.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/ranks/RankCommand.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/shop/ChestShopCreation.java

@@ -32,5 +32,5 @@ public class JoinLeaveListener implements Listener {
         e.setQuitMessage(main.getPlayerRank(player).getColor() + player.getDisplayName() + ChatColor.GRAY + " left the game.");
     }
 
-    
+
 }

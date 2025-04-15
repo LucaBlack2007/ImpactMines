@@ -29,3 +29,6 @@ commands:
     description: Fills a mine that's been selected by the player.
   removemine:
     description: Completely removes a mine from the world.
+  playervault:
+    description: Opens your player vault(s).
+    aliases: [pv]

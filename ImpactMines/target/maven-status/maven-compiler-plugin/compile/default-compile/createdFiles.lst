@@ -1,4 +1,5 @@
 com/lucacando/impactMines/admin/gamemode/GamemodeCreative.class
+com/lucacando/impactMines/playervaults/VaultManager.class
 com/lucacando/impactMines/admin/gamemode/GamemodeSurvival.class
 com/lucacando/impactMines/discord/DiscordListener.class
 com/lucacando/impactMines/ranks/RankCommand.class
@@ -6,6 +7,8 @@ com/lucacando/impactMines/admin/tools/ToolCommand.class
 com/lucacando/impactMines/admin/gamemode/GamemodeAdventure.class
 com/lucacando/impactMines/ranks/Rank.class
 com/lucacando/impactMines/listeners/JoinLeaveListener.class
+com/lucacando/impactMines/playervaults/PlayerVaultCommand.class
+com/lucacando/impactMines/playervaults/InventoryListener.class
 com/lucacando/impactMines/shop/ChestShopCreation.class
 com/lucacando/impactMines/admin/tools/Tool.class
 com/lucacando/impactMines/mines/MineRegenerationTask.class

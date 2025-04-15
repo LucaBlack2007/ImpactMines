@@ -20,6 +20,9 @@ import com.lucacando.impactMines.mines.Selection;
 import com.lucacando.impactMines.mines.commands.FillMineCommand;
 import com.lucacando.impactMines.mines.commands.MineWandCommand;
 import com.lucacando.impactMines.mines.commands.RemoveMineCommand;
+import com.lucacando.impactMines.playervaults.InventoryListener;
+import com.lucacando.impactMines.playervaults.PlayerVaultCommand;
+import com.lucacando.impactMines.playervaults.VaultManager;
 import com.lucacando.impactMines.ranks.Rank;
 import com.lucacando.impactMines.ranks.RankCommand;
 import com.lucacando.impactMines.shop.ChestShopCreation;
@@ -59,6 +62,8 @@ public final class Main extends JavaPlugin {
     public FileConfiguration minesConfig;
     public JDA jda;
 
+    private VaultManager vaultManager;
+
     @Override
     public void onEnable() {
         getLogger().info("ImpactMines core plugin has been enabled!");
@@ -67,6 +72,10 @@ public final class Main extends JavaPlugin {
         saveDefaultConfig();
         getConfig().options().copyDefaults(true);
         saveConfig();
+
+        vaultManager = new VaultManager(this);
+        getCommand("playervault").setExecutor(new PlayerVaultCommand(this, vaultManager));
+        getServer().getPluginManager().registerEvents(new InventoryListener(vaultManager), this);
 
         getCommand("removemine").setExecutor(new RemoveMineCommand(this));
         getCommand("minewand").setExecutor(new MineWandCommand(this));
@@ -118,6 +127,11 @@ public final class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         saveMines();
+        vaultManager.saveAllVaults();
+    }
+
+    public VaultManager getVaultManager() {
+        return vaultManager;
     }
 
     public void loadMines() {
