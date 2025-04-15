@@ -4,7 +4,6 @@ import com.lucacando.impactMines.Main;
 import com.lucacando.impactMines.mines.Mine;
 import com.lucacando.impactMines.mines.Selection;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.Command;

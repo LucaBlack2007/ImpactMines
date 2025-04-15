@@ -1,7 +1,6 @@
 package com.lucacando.impactMines.admin.gamemode;
 
 import com.lucacando.impactMines.Main;
-import com.lucacando.impactMines.ranks.Rank;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;

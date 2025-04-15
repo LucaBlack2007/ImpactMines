@@ -23,21 +23,29 @@ import com.lucacando.impactMines.mines.commands.RemoveMineCommand;
 import com.lucacando.impactMines.playervaults.InventoryListener;
 import com.lucacando.impactMines.playervaults.PlayerVaultCommand;
 import com.lucacando.impactMines.playervaults.VaultManager;
+import com.lucacando.impactMines.punishments.MutedListener;
+import com.lucacando.impactMines.punishments.PunishmentManager;
+import com.lucacando.impactMines.punishments.commands.bans.BanCommand;
+import com.lucacando.impactMines.punishments.commands.bans.IPBanCommand;
+import com.lucacando.impactMines.punishments.commands.bans.TempBanCommand;
+import com.lucacando.impactMines.punishments.commands.bans.UnbanCommand;
+import com.lucacando.impactMines.punishments.commands.mutes.MuteCommand;
+import com.lucacando.impactMines.punishments.commands.mutes.TempMuteCommand;
+import com.lucacando.impactMines.punishments.commands.mutes.UnmuteCommand;
+import com.lucacando.impactMines.punishments.commands.warns.WarnCommand;
 import com.lucacando.impactMines.ranks.Rank;
 import com.lucacando.impactMines.ranks.RankCommand;
 import com.lucacando.impactMines.shop.ChestShopCreation;
+import com.lucacando.impactMines.spawn.SetSpawnCommand;
+import com.lucacando.impactMines.spawn.SpawnCommand;
+import com.lucacando.impactMines.spawn.SpawnListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -66,6 +74,7 @@ public final class Main extends JavaPlugin {
     public JDA jda;
 
     private VaultManager vaultManager;
+    private PunishmentManager punishmentManager;
 
     @Override
     public void onEnable() {
@@ -77,6 +86,24 @@ public final class Main extends JavaPlugin {
         saveDefaultConfig();
         getConfig().options().copyDefaults(true);
         saveConfig();
+
+        getCommand("setspawn").setExecutor(new SetSpawnCommand(this));
+        getCommand("spawn").setExecutor(new SpawnCommand(this));
+        getServer().getPluginManager().registerEvents(new SpawnListener(this), this);
+
+        punishmentManager = new PunishmentManager(this, this);
+        getServer().getPluginManager().registerEvents(new MutedListener(this), this);
+        getCommand("tempban").setExecutor(new TempBanCommand(this));
+        getCommand("ban").setExecutor(new BanCommand(this));
+        getCommand("ipban").setExecutor(new IPBanCommand(this));
+        getCommand("unban").setExecutor(new UnbanCommand(this));
+
+        getCommand("tempmute").setExecutor(new TempMuteCommand(this));
+        getCommand("mute").setExecutor(new MuteCommand(this));
+        getCommand("unmute").setExecutor(new UnmuteCommand(this));
+
+        getCommand("warn").setExecutor(new WarnCommand(this));
+        getCommand("warnings").setExecutor(new WarningsCommand(this));
 
         vaultManager = new VaultManager(this);
         getCommand("playervault").setExecutor(new PlayerVaultCommand(this, vaultManager));
@@ -137,6 +164,10 @@ public final class Main extends JavaPlugin {
 
     public VaultManager getVaultManager() {
         return vaultManager;
+    }
+
+    public PunishmentManager getPunishmentManager() {
+        return punishmentManager;
     }
 
     public void loadMines() {
@@ -245,6 +276,9 @@ public final class Main extends JavaPlugin {
     public Rank getPlayerRank(Player player) {
         return Rank.valueOf(getConfig().getString("players." + player.getUniqueId().toString() + ".rank", ""));
     }
+    public Rank getPlayerRank(OfflinePlayer player) {
+        return Rank.valueOf(getConfig().getString("players." + player.getUniqueId().toString() + ".rank", ""));
+    }
     public void setPlayerRank(Player player, Rank rank) {
         getConfig().set("players." + player.getUniqueId() + ".rank", rank.getName());
         saveConfig();
@@ -311,4 +345,15 @@ public final class Main extends JavaPlugin {
             new Tool(this, Material.NETHERITE_PICKAXE, ChatColor.DARK_RED + "" + ChatColor.BOLD + "Ωmega Pickaxe", 50, 70, 8, ChatColor.GRAY + "The final pick. Beyond comprehension.")
     };
 
+    public Location getSpawn() {
+        Location spawnLoc = new Location(
+                Bukkit.getWorld(UUID.fromString(this.getConfig().getString("spawn.world"))),
+                this.getConfig().getDouble("spawn.x"),
+                this.getConfig().getDouble("spawn.y"),
+                this.getConfig().getDouble("spawn.z"),
+                (float) this.getConfig().getDouble("spawn.yaw"),
+                (float) this.getConfig().getDouble("spawn.pitch")
+        );
+        return spawnLoc;
+    }
 }

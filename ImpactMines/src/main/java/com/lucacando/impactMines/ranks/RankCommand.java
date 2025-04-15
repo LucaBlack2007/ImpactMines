@@ -15,12 +15,9 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.metadata.FixedMetadataValue;
 import com.lucacando.impactMines.Main;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 public class RankCommand implements CommandExecutor, Listener {
@@ -37,6 +34,31 @@ public class RankCommand implements CommandExecutor, Listener {
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+
+        if (sender instanceof ConsoleCommandSender) {
+            if (args.length < 2) {
+                sender.sendMessage(main.prefix + "please specify a player and a rank.");
+                return true;
+            }
+
+            OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(args[0]);
+            if (targetPlayer == null || (!targetPlayer.hasPlayedBefore() && Bukkit.getPlayer(args[0]) == null)) {
+                sender.sendMessage(usage);
+                return true;
+            }
+
+            String ranks = "";
+            for (Rank r : Rank.values()) {
+                ranks += "\n" + r.getColor().toString() + r.getName();
+                if (r.getName().equalsIgnoreCase(args[1])) {
+                    main.setPlayerRank(targetPlayer.getPlayer(), r);
+                    sender.sendMessage(main.prefix + ChatColor.YELLOW + targetPlayer.getName() + "'s" + ChatColor.GREEN + " Rank set to " + r.getColor().toString() + r.getName());
+                    return true;
+                }
+            }
+            sender.sendMessage(main.prefix + "Please select a proper rank: " + ChatColor.RESET + ranks);
+        }
+
 
         if (sender instanceof Player) {
             Player p = (Player) sender;

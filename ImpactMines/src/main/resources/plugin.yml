@@ -32,3 +32,23 @@ commands:
   playervault:
     description: Opens your player vault(s).
     aliases: [pv]
+  spawn:
+    description: Teleports to spawn.
+  setspawn:
+    description: Sets the world spawn.
+  ipban:
+    description: Bans a player's IP permanently.
+  tempban:
+    description: Temporarily bans a player.
+  ban:
+    description: Permanently bans a player.
+  unban:
+    description: Unbans a player.
+  mute:
+    description: Permanently mutes a player.
+  tempmute:
+    description: Temporarily mutes a player.
+  unmute:
+    description: Unmutes a player.
+  warn:
+    description: Warns a player for something.

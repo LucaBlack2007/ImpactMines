@@ -1,7 +1,6 @@
 package com.lucacando.impactMines.mines.commands;
 
 import com.lucacando.impactMines.Main;
-import com.lucacando.impactMines.mines.MineWandListener;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
