@@ -33,6 +33,7 @@
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/ranks/Rank.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/ranks/RankCommand.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/shop/ChestShopCreation.java
+/Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/shop/CustomRecipes.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/spawn/SetSpawnCommand.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/spawn/SpawnCommand.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/spawn/SpawnListener.java
@@ -41,4 +42,4 @@
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/tools/Tool.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/tools/ToolCommand.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/tools/enums/CompactLevel.java
-/Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/tools/enums/ImpactBlock.java
+/Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/tools/enums/ImpactItem.java

@@ -5,6 +5,7 @@ import com.lucacando.impactMines.admin.gamemode.GamemodeAdventure;
 import com.lucacando.impactMines.admin.gamemode.GamemodeCreative;
 import com.lucacando.impactMines.admin.gamemode.GamemodeSpectator;
 import com.lucacando.impactMines.admin.gamemode.GamemodeSurvival;
+import com.lucacando.impactMines.shop.CustomRecipes;
 import com.lucacando.impactMines.tools.GiveCompacted;
 import com.lucacando.impactMines.tools.Tool;
 import com.lucacando.impactMines.tools.ToolCommand;
@@ -78,12 +79,15 @@ public final class Main extends JavaPlugin {
 
     private VaultManager vaultManager;
     private PunishmentManager punishmentManager;
+    private CustomRecipes customRecipes;
 
     @Override
     public void onEnable() {
         getLogger().info("ImpactMines core plugin has been enabled!");
 
         registerNoPermissionMessages();
+
+        customRecipes = new CustomRecipes(this);
 
         if (!getDataFolder().exists()) getDataFolder().mkdir();
         saveDefaultConfig();
@@ -129,7 +133,7 @@ public final class Main extends JavaPlugin {
 
         getCommand("toolselect").setExecutor(new ToolCommand(this, "/tool [<player>]"));
         getCommand("givecompacted").setExecutor(new GiveCompacted(this));
-        
+
         getServer().getPluginManager().registerEvents(new DiscordChatListener(this), this);
         getServer().getPluginManager().registerEvents(new ChatListener(this), this);
         getServer().getPluginManager().registerEvents(new FirstJoinListener(this), this);
@@ -271,6 +275,10 @@ public final class Main extends JavaPlugin {
     public String formatPlayerName(Player player) {
         Rank rank = getPlayerRank(player);
         return rank.getColor() + rank.getPrefix() + rank.getColor() + player.getName();
+    }
+
+    public CustomRecipes getCustomRecipes() {
+        return customRecipes;
     }
 
     // RANK STUFF /////////////////////////////////////////////////////////////////////////////////////////////////////////

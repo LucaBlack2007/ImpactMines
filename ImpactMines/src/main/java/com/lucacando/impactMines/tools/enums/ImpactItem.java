@@ -17,7 +17,17 @@ public enum ImpactItem {
     GOLD(Material.GOLD_INGOT, ChatColor.YELLOW, "Gold"),
     REDSTONE(Material.REDSTONE, ChatColor.RED, "Redstone"),
     LAPIS(Material.LAPIS_LAZULI, ChatColor.BLUE, "Lapis"),
-    DIAMOND(Material.DIAMOND, ChatColor.AQUA, "Diamond");
+    DIAMOND(Material.DIAMOND, ChatColor.AQUA, "Diamond"),
+
+    OAK_BLOCK(Material.OAK_WOOD, ChatColor.GOLD, "Oak Wood"),
+    STONE_BRICK(Material.STONE_BRICKS, ChatColor.GRAY, "Stone"),
+    COAL_BLOCK(Material.COAL_BLOCK, ChatColor.DARK_GRAY, "Coal Block"),
+    IRON_BLOCK(Material.IRON_BLOCK, ChatColor.WHITE, "Iron Block"),
+    COPPER_BLOCK(Material.COPPER_BLOCK, ChatColor.GOLD, "Copper Block"),
+    GOLD_BLOCK(Material.GOLD_BLOCK, ChatColor.YELLOW, "Gold Block"),
+    REDSTONE_BLOCK(Material.REDSTONE_BLOCK, ChatColor.RED, "Redstone Block"),
+    LAPIS_BLOCK(Material.LAPIS_BLOCK, ChatColor.BLUE, "Lapis Block"),
+    DIAMOND_BLOCK(Material.DIAMOND_BLOCK, ChatColor.AQUA, "Diamond Block");
 
     private Material material;
     private ChatColor nameColor;

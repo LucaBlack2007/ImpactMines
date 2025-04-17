@@ -28,7 +28,7 @@ public class GiveCompacted implements CommandExecutor {
             for (CompactLevel value : CompactLevel.values()) {
                 player.sendMessage(String.valueOf(value));
             }
-            ItemStack item = ImpactItem.valueOf(args[0]).getBlock(CompactLevel.valueOf(args[1]));
+            ItemStack item = ImpactItem.valueOf(args[0]).getBlock(CompactLevel.valueOf(args[1]), Integer.valueOf(args[2]));
             player.getInventory().addItem(item);
         }
 
