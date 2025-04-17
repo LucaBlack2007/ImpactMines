@@ -3,12 +3,14 @@ package com.lucacando.impactMines.shop;
 import com.lucacando.impactMines.Main;
 import org.bukkit.Material;
 import org.bukkit.block.Chest;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -19,6 +21,19 @@ public class ChestShopCreation implements Listener {
 
     public ChestShopCreation(Main main) {
         this.main = main;
+    }
+
+    @EventHandler
+    public void onClickEntity(PlayerInteractAtEntityEvent e) {
+        Entity ent = e.getRightClicked();
+        if (e.getPlayer().getInventory().getItemInMainHand().getType()==Material.STICK) {
+            ArmorStand stand = (ArmorStand) ent.getWorld().spawnEntity(ent.getLocation(), EntityType.ARMOR_STAND);
+            stand.setVisible(false);
+            stand.setInvulnerable(true);
+            stand.setGravity(false);
+            stand.setCustomName(e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName());
+            stand.setCustomNameVisible(true);
+        }
     }
 
     @EventHandler

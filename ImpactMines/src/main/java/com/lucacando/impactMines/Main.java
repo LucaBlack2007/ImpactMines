@@ -5,11 +5,12 @@ import com.lucacando.impactMines.admin.gamemode.GamemodeAdventure;
 import com.lucacando.impactMines.admin.gamemode.GamemodeCreative;
 import com.lucacando.impactMines.admin.gamemode.GamemodeSpectator;
 import com.lucacando.impactMines.admin.gamemode.GamemodeSurvival;
-import com.lucacando.impactMines.admin.tools.Tool;
-import com.lucacando.impactMines.admin.tools.ToolCommand;
+import com.lucacando.impactMines.tools.GiveCompacted;
+import com.lucacando.impactMines.tools.Tool;
+import com.lucacando.impactMines.tools.ToolCommand;
 import com.lucacando.impactMines.discord.DiscordChatListener;
 import com.lucacando.impactMines.discord.DiscordListener;
-import com.lucacando.impactMines.listeners.BlockBreakListener;
+import com.lucacando.impactMines.tools.BlockBreakListener;
 import com.lucacando.impactMines.listeners.ChatListener;
 import com.lucacando.impactMines.listeners.FirstJoinListener;
 import com.lucacando.impactMines.listeners.JoinLeaveListener;
@@ -33,12 +34,14 @@ import com.lucacando.impactMines.punishments.commands.mutes.MuteCommand;
 import com.lucacando.impactMines.punishments.commands.mutes.TempMuteCommand;
 import com.lucacando.impactMines.punishments.commands.mutes.UnmuteCommand;
 import com.lucacando.impactMines.punishments.commands.warns.WarnCommand;
+import com.lucacando.impactMines.punishments.commands.warns.WarningsCommand;
 import com.lucacando.impactMines.ranks.Rank;
 import com.lucacando.impactMines.ranks.RankCommand;
 import com.lucacando.impactMines.shop.ChestShopCreation;
 import com.lucacando.impactMines.spawn.SetSpawnCommand;
 import com.lucacando.impactMines.spawn.SpawnCommand;
 import com.lucacando.impactMines.spawn.SpawnListener;
+import com.lucacando.impactMines.tools.enums.ImpactItem;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -125,7 +128,8 @@ public final class Main extends JavaPlugin {
         getCommand("gma").setExecutor(new GamemodeAdventure(this, "/gma [<player>]"));
 
         getCommand("toolselect").setExecutor(new ToolCommand(this, "/tool [<player>]"));
-
+        getCommand("givecompacted").setExecutor(new GiveCompacted(this));
+        
         getServer().getPluginManager().registerEvents(new DiscordChatListener(this), this);
         getServer().getPluginManager().registerEvents(new ChatListener(this), this);
         getServer().getPluginManager().registerEvents(new FirstJoinListener(this), this);
@@ -347,7 +351,7 @@ public final class Main extends JavaPlugin {
 
     public Location getSpawn() {
         Location spawnLoc = new Location(
-                Bukkit.getWorld(UUID.fromString(this.getConfig().getString("spawn.world"))),
+                Bukkit.getWorld(this.getConfig().getString("spawn.world")),
                 this.getConfig().getDouble("spawn.x"),
                 this.getConfig().getDouble("spawn.y"),
                 this.getConfig().getDouble("spawn.z"),

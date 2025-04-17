@@ -34,7 +34,7 @@ public class SetSpawnCommand implements CommandExecutor {
         World world = player.getWorld();
         Location location = player.getLocation();
 
-        main.getConfig().set("spawn.world", world.getUID());
+        main.getConfig().set("spawn.world", world.getName());
         main.getConfig().set("spawn.x", location.getX());
         main.getConfig().set("spawn.y", location.getY());
         main.getConfig().set("spawn.z", location.getZ());

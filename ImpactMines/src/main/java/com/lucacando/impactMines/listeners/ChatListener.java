@@ -20,6 +20,7 @@ public class ChatListener implements Listener {
         ChatColor chatColor = ChatColor.GRAY;
         if (main.getPlayerRank(e.getPlayer()).getPermissionLevel() > 0) chatColor = ChatColor.WHITE;
         String message = e.getMessage();
+
         if (main.getPlayerRank(e.getPlayer()).getPermissionLevel() >= 3) message = ChatColor.translateAlternateColorCodes('&', e.getMessage());
         e.setFormat(main.formatPlayerName(e.getPlayer()) + chatColor + ": " + message);
     }

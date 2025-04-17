@@ -52,3 +52,6 @@ commands:
     description: Unmutes a player.
   warn:
     description: Warns a player for something.
+  warnings:
+    description: Shows you the player's warnings.
+  givecompacted:
