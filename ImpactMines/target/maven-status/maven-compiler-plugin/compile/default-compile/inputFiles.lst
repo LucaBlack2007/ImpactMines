@@ -1,4 +1,5 @@
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/Main.java
+/Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/admin/InvseeCommand.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/admin/ReloadPlayersCommand.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/admin/gamemode/GamemodeAdventure.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/admin/gamemode/GamemodeCreative.java
@@ -32,14 +33,19 @@
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/punishments/commands/warns/WarningsCommand.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/ranks/Rank.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/ranks/RankCommand.java
-/Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/shop/ChestShopCreation.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/shop/CustomRecipes.java
+/Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/shop/Shop.java
+/Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/shop/ShopCreationCommand.java
+/Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/shop/ShopListener.java
+/Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/shop/ShopManager.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/spawn/SetSpawnCommand.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/spawn/SpawnCommand.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/spawn/SpawnListener.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/tools/BlockBreakListener.java
+/Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/tools/BlockPlaceListener.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/tools/GiveCompacted.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/tools/Tool.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/tools/ToolCommand.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/tools/enums/CompactLevel.java
 /Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/tools/enums/ImpactItem.java
+/Users/luca/IdeaProjects/ImpactMines/ImpactMines/src/main/java/com/lucacando/impactMines/tools/enums/Rarity.java

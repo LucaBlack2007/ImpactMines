@@ -1,5 +1,6 @@
 package com.lucacando.impactMines.tools.enums;
 
+import kotlin.text.CharCategory;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -16,18 +17,24 @@ public enum ImpactItem {
     COPPER(Material.COPPER_INGOT, ChatColor.GOLD, "Copper"),
     GOLD(Material.GOLD_INGOT, ChatColor.YELLOW, "Gold"),
     REDSTONE(Material.REDSTONE, ChatColor.RED, "Redstone"),
+    QUARTZ(Material.QUARTZ, ChatColor.WHITE, "Quartz"),
     LAPIS(Material.LAPIS_LAZULI, ChatColor.BLUE, "Lapis"),
     DIAMOND(Material.DIAMOND, ChatColor.AQUA, "Diamond"),
+    EMERALD(Material.EMERALD, ChatColor.GREEN, "Emerald"),
 
-    OAK_BLOCK(Material.OAK_WOOD, ChatColor.GOLD, "Oak Wood"),
-    STONE_BRICK(Material.STONE_BRICKS, ChatColor.GRAY, "Stone"),
+    OAK_BLOCK(Material.OAK_WOOD, ChatColor.GOLD, "Oak Block"),
+    STONE_BRICK(Material.STONE_BRICKS, ChatColor.GRAY, "Stone Block"),
     COAL_BLOCK(Material.COAL_BLOCK, ChatColor.DARK_GRAY, "Coal Block"),
     IRON_BLOCK(Material.IRON_BLOCK, ChatColor.WHITE, "Iron Block"),
     COPPER_BLOCK(Material.COPPER_BLOCK, ChatColor.GOLD, "Copper Block"),
     GOLD_BLOCK(Material.GOLD_BLOCK, ChatColor.YELLOW, "Gold Block"),
     REDSTONE_BLOCK(Material.REDSTONE_BLOCK, ChatColor.RED, "Redstone Block"),
+    QUARTZ_BLOCK(Material.QUARTZ_BLOCK, ChatColor.WHITE, "Quartz Block"),
     LAPIS_BLOCK(Material.LAPIS_BLOCK, ChatColor.BLUE, "Lapis Block"),
-    DIAMOND_BLOCK(Material.DIAMOND_BLOCK, ChatColor.AQUA, "Diamond Block");
+    DIAMOND_BLOCK(Material.DIAMOND_BLOCK, ChatColor.AQUA, "Diamond Block"),
+    EMERALD_BLOCK(Material.EMERALD_BLOCK, ChatColor.GREEN, "Emerald Block"),
+    GLASS(Material.LIGHT_BLUE_STAINED_GLASS, ChatColor.AQUA, "Glass"),
+    BEACON(Material.BEACON, ChatColor.WHITE, "Beacon");
 
     private Material material;
     private ChatColor nameColor;

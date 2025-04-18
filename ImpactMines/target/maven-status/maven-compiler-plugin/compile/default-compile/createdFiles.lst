@@ -1,13 +1,19 @@
+com/lucacando/impactMines/tools/enums/Rarity.class
 com/lucacando/impactMines/tools/enums/ImpactItem.class
+com/lucacando/impactMines/shop/Shop.class
 com/lucacando/impactMines/discord/DiscordListener.class
 com/lucacando/impactMines/admin/gamemode/GamemodeAdventure.class
 com/lucacando/impactMines/ranks/Rank.class
 com/lucacando/impactMines/tools/ToolCommand.class
+com/lucacando/impactMines/shop/ShopCreationCommand.class
+com/lucacando/impactMines/tools/BlockPlaceListener.class
+com/lucacando/impactMines/shop/ShopManager.class
 com/lucacando/impactMines/punishments/commands/mutes/MuteCommand.class
 com/lucacando/impactMines/discord/DiscordChatListener.class
 com/lucacando/impactMines/tools/GiveCompacted.class
 com/lucacando/impactMines/shop/CustomRecipes.class
 com/lucacando/impactMines/mines/commands/MineWandCommand.class
+com/lucacando/impactMines/admin/InvseeCommand.class
 com/lucacando/impactMines/tools/enums/CompactLevel.class
 com/lucacando/impactMines/spawn/SpawnCommand.class
 com/lucacando/impactMines/admin/gamemode/GamemodeCreative.class
@@ -23,7 +29,6 @@ com/lucacando/impactMines/playervaults/PlayerVaultCommand.class
 com/lucacando/impactMines/tools/BlockBreakListener.class
 com/lucacando/impactMines/punishments/commands/mutes/UnmuteCommand.class
 com/lucacando/impactMines/playervaults/InventoryListener.class
-com/lucacando/impactMines/shop/ChestShopCreation.class
 com/lucacando/impactMines/tools/Tool.class
 com/lucacando/impactMines/mines/MineRegenerationTask.class
 com/lucacando/impactMines/listeners/ChatListener.class
@@ -34,6 +39,7 @@ com/lucacando/impactMines/punishments/commands/bans/UnbanCommand.class
 com/lucacando/impactMines/Main.class
 com/lucacando/impactMines/mines/commands/FillMineCommand.class
 com/lucacando/impactMines/punishments/commands/bans/IPBanCommand.class
+com/lucacando/impactMines/shop/ShopListener.class
 com/lucacando/impactMines/listeners/FirstJoinListener.class
 com/lucacando/impactMines/mines/commands/RemoveMineCommand.class
 com/lucacando/impactMines/punishments/commands/bans/BanCommand.class

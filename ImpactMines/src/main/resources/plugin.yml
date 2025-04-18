@@ -54,4 +54,7 @@ commands:
     description: Warns a player for something.
   warnings:
     description: Shows you the player's warnings.
+  invsee:
+    description: Allows you to open and edit a player's inventory.
   givecompacted:
+  createshop:

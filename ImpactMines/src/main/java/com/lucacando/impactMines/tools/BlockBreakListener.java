@@ -74,11 +74,20 @@ public class BlockBreakListener implements Listener {
         blocks.put(Material.REDSTONE_ORE, ImpactItem.REDSTONE.getBlock(CompactLevel.NONE, amount));
         blocks.put(Material.DEEPSLATE_REDSTONE_ORE, ImpactItem.REDSTONE.getBlock(CompactLevel.NONE, amount * 4));
 
+        blocks.put(Material.NETHER_QUARTZ_ORE, ImpactItem.QUARTZ.getBlock(CompactLevel.NONE, amount));
+        blocks.put(Material.QUARTZ_BLOCK, ImpactItem.QUARTZ.getBlock(CompactLevel.NONE, amount * 4));
+
         blocks.put(Material.LAPIS_ORE, ImpactItem.LAPIS.getBlock(CompactLevel.NONE, amount));
         blocks.put(Material.DEEPSLATE_LAPIS_ORE, ImpactItem.LAPIS.getBlock(CompactLevel.NONE, amount * 4));
 
         blocks.put(Material.DIAMOND_ORE, ImpactItem.DIAMOND.getBlock(CompactLevel.NONE, amount));
         blocks.put(Material.DEEPSLATE_DIAMOND_ORE, ImpactItem.DIAMOND.getBlock(CompactLevel.NONE, amount * 4));
+
+        blocks.put(Material.EMERALD_ORE, ImpactItem.EMERALD.getBlock(CompactLevel.NONE, amount));
+        blocks.put(Material.DEEPSLATE_EMERALD_ORE, ImpactItem.EMERALD.getBlock(CompactLevel.NONE, amount * 4));
+
+        blocks.put(Material.LIGHT_BLUE_STAINED_GLASS, ImpactItem.BEACON.getBlock(CompactLevel.NONE, 4));
+        blocks.put(Material.BEACON, ImpactItem.BEACON.getBlock(CompactLevel.NONE, 1));
 
 
         return blocks;

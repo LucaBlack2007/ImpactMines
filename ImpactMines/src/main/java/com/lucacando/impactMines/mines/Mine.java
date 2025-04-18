@@ -38,7 +38,7 @@ public class Mine {
             for (int y = min.getBlockY(); y <= max.getBlockY(); y++) {
                 for (int z = min.getBlockZ(); z <= max.getBlockZ(); z++) {
                     Location loc = new Location(world, x, y, z);
-                    Material chosen = (random.nextDouble() <= 0.9) ? block1 : block2;
+                    Material chosen = (random.nextDouble() <= 0.65) ? block1 : block2;
                     world.getBlockAt(loc).setType(chosen);
                 }
             }
@@ -52,7 +52,7 @@ public class Mine {
                 for (int z = min.getBlockZ(); z <= max.getBlockZ(); z++) {
                     Block b = world.getBlockAt(x, y, z);
                     if (b.getType() == Material.AIR) {
-                        Material fill = (random.nextDouble() <= 0.9) ? block1 : block2;
+                        Material fill = (random.nextDouble() <= 0.65) ? block1 : block2;
                         b.setType(fill);
                         airCount++;
                     }

@@ -7,12 +7,14 @@ import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class ToolCommand implements CommandExecutor, Listener {
 
@@ -51,18 +53,28 @@ public class ToolCommand implements CommandExecutor, Listener {
             }
         }
 
-        Inventory gui = Bukkit.createInventory(null, 54, ChatColor.BLUE + "Tool Selection Menu");
+        Inventory gui = Bukkit.createInventory(null, 54, ChatColor.BLUE + "Tool Selection Menu " + ChatColor.DARK_GRAY + "(1)");
 
         ItemStack glass = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
-        glass.getItemMeta().setDisplayName(" ");
+        ItemMeta glassMeta = glass.getItemMeta();
+        glassMeta.setDisplayName(" ");
+        glass.setItemMeta(glassMeta);
         int[] borderSlots = {
                 0, 1, 2, 3, 4, 5, 6, 7, 8,
-                45, 46, 47, 48, 49, 50, 51, 52, 53,
+                45, 46, 50, 51, 52, 53,
                 9, 18, 27, 36,
                 17, 26, 35, 44
         };
         for (int slot : borderSlots) gui.setItem(slot, glass);
+        // 47 48 49
 
+        ItemStack quitItem = new ItemStack(Material.BARRIER);
+        ItemMeta barrierMeta = quitItem.getItemMeta();
+        barrierMeta.setDisplayName(ChatColor.RED + ChatColor.BOLD.toString() + "QUIT");
+        quitItem.setItemMeta(barrierMeta);
+
+        ItemStack forwardItem = new ItemStack(Material.ARROW);
+        ItemMeta forwardMeta = forwardItem.getItemMeta();
 
         for (Tool t : main.tools) gui.addItem(t.getItem());
         player.openInventory(gui);

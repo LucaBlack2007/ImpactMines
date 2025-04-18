@@ -7,22 +7,25 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.RecipeChoice;
-import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.ShapelessRecipe;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.event.inventory.PrepareItemCraftEvent;
+import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
-public class CustomRecipes {
+public class CustomRecipes implements Listener {
 
     Main main;
+    private final Set<Material> compactedMaterials = new HashSet<>();
 
     public CustomRecipes(Main main) {
         this.main = main;
+        Bukkit.getPluginManager().registerEvents(this, main);
+
+        Bukkit.clearRecipes();
 
         List<ImpactItem> baseItems = Arrays.asList(
                 ImpactItem.OAK_WOOD, ImpactItem.STONE,
@@ -38,65 +41,50 @@ public class CustomRecipes {
                 ImpactItem.LAPIS_BLOCK, ImpactItem.DIAMOND_BLOCK
         );
 
-        for (int i = 0; i < baseItems.size(); i++) {
-            ImpactItem matImpactItem = baseItems.get(i);
-            ItemStack matItem = matImpactItem.getBlock(CompactLevel.NONE);
-            List<ItemStack> craftingMaterials = new ArrayList<>();
-            for (int i1 = 0; i1 < 9; i1++) {
-                craftingMaterials.add(matItem);
-            }
+        registerBlockRecipes(items, baseItems);
+        registerCompactedBlockRecipes(items, baseItems);
+        registerAllCompactedBlockRecipes(items);
+        registerReverseCrafts(items, baseItems);
+    }
 
-            NamespacedKey key = new NamespacedKey(main, matImpactItem.name() + (i+1)*10);
-            ShapelessRecipe recipe = new ShapelessRecipe(key, items.get(i).getBlock(CompactLevel.NONE));
-            for (ItemStack craftingMaterial : craftingMaterials) {
-                recipe.addIngredient(new RecipeChoice.ExactChoice(craftingMaterial));
-            }
+    private void registerReverseCrafts(List<ImpactItem> items, List<ImpactItem> baseItems) {
+        int index = 0;
+        for (ImpactItem item : items) {
+            CompactLevel[] levels = CompactLevel.values();
+            for (int i = levels.length - 1; i >= 0; i--) {
+                ItemStack material = item.getBlock(levels[i]);
+                ItemStack product = (i == 0) ?
+                        baseItems.get(index).getBlock(CompactLevel.NONE) :
+                        item.getBlock(levels[i-1]);
+                product.setAmount(8);
 
-            Bukkit.addRecipe(recipe);
-            Bukkit.getConsoleSender().sendMessage(main.prefix + "Recipe for " +
-                    ChatColor.RED + items.get(i).getName() +
-                    ChatColor.BLUE + " registered.");
+                NamespacedKey key = new NamespacedKey(main, String.valueOf(Math.random() * 10000000));
+                ShapelessRecipe recipe = new ShapelessRecipe(key, product);
+                recipe.addIngredient(new RecipeChoice.ExactChoice(material));
+                Bukkit.addRecipe(recipe);
+            }
+            index++;
         }
+    }
 
-        for (int i = 0; i < baseItems.size(); i++) {
-            ImpactItem matImpactItem = items.get(i);
-            ItemStack matItem = matImpactItem.getBlock(CompactLevel.NONE);
-            List<ItemStack> craftingMaterials = new ArrayList<>();
-            for (int i1 = 0; i1 < 9; i1++) {
-                craftingMaterials.add(matItem);
-            }
-
-            NamespacedKey key = new NamespacedKey(main, matImpactItem.name() + (i+1)*100);
-            ShapelessRecipe recipe = new ShapelessRecipe(key, items.get(i).getBlock(CompactLevel.COMPACTED));
-            for (ItemStack craftingMaterial : craftingMaterials) {
-                recipe.addIngredient(new RecipeChoice.ExactChoice(craftingMaterial));
-            }
-
-            Bukkit.addRecipe(recipe);
-            Bukkit.getConsoleSender().sendMessage(main.prefix + "Recipe for " +
-                    ChatColor.RED + "COMPACTED " + ChatColor.RED + items.get(i).getName() +
-                    ChatColor.BLUE + " registered.");
-        }
-
+    private void registerAllCompactedBlockRecipes(List<ImpactItem> items) {
         for (ImpactItem item : items) {
             for (int i = 1; i < CompactLevel.values().length; i++) {
                 CompactLevel level = CompactLevel.values()[i];
-                NamespacedKey key = new NamespacedKey(main, item.getMaterial().toString() + level.getCompactedLevel());
-
-                List<ItemStack> craftingMaterials = new ArrayList<>();
+                NamespacedKey key = new NamespacedKey(main, String.valueOf(Math.random() * 10000000));
                 if (level.getCompactedLevel() >= 1) {
                     CompactLevel matLevel = CompactLevel.values()[i-1];
-                    ItemStack matItem = item.getBlock(matLevel,matLevel.getCompactedLevel()+1);
-                    for (int i1 = 0; i1 < 9; i1++) {
-                        craftingMaterials.add(matItem);
-                    }
+                    ItemStack matItem = item.getBlock(matLevel);
+                    matItem.setAmount(8);
 
-                    ShapelessRecipe recipe = new ShapelessRecipe(key, item.getBlock(level));
-                    for (ItemStack craftingMaterial : craftingMaterials) {
-                        recipe.addIngredient(new RecipeChoice.ExactChoice(craftingMaterial));
-                    }
-
+                    ShapedRecipe recipe = new ShapedRecipe(key, item.getBlock(level));
+                    recipe.shape("XXX", "XXX", "XXX");
+                    recipe.setIngredient('X', new RecipeChoice.ExactChoice(matItem));
                     Bukkit.addRecipe(recipe);
+
+                    // Track result material for event handling
+                    compactedMaterials.add(item.getBlock(level).getType());
+
                     Bukkit.getConsoleSender().sendMessage(main.prefix + "Recipe for " +
                             ChatColor.RED + level + " " + ChatColor.RED + item.getName() +
                             ChatColor.BLUE + " registered.");
@@ -104,5 +92,44 @@ public class CustomRecipes {
             }
         }
     }
+
+    private void registerBlockRecipes(List<ImpactItem> items, List<ImpactItem> baseItems) {
+        for (int i = 0; i < baseItems.size(); i++) {
+            ImpactItem matImpactItem = baseItems.get(i);
+            ItemStack matItem = matImpactItem.getBlock(CompactLevel.NONE);
+            matItem.setAmount(8);
+            NamespacedKey key = new NamespacedKey(main, String.valueOf(Math.random() * 10000000));
+            ShapedRecipe recipe = new ShapedRecipe(key, items.get(i).getBlock(CompactLevel.NONE));
+            recipe.shape("XXX", "XXX", "XXX");
+            recipe.setIngredient('X', new RecipeChoice.ExactChoice(matItem));
+            Bukkit.addRecipe(recipe);
+
+            compactedMaterials.add(items.get(i).getBlock(CompactLevel.NONE).getType());
+
+            Bukkit.getConsoleSender().sendMessage(main.prefix + "Recipe for " +
+                    ChatColor.RED + items.get(i).getName() +
+                    ChatColor.BLUE + " registered.");
+        }
+    }
+
+    private void registerCompactedBlockRecipes(List<ImpactItem> items, List<ImpactItem> baseItems) {
+        for (int i = 0; i < baseItems.size(); i++) {
+            ImpactItem matImpactItem = items.get(i);
+            ItemStack matItem = matImpactItem.getBlock(CompactLevel.NONE);
+            matItem.setAmount(8);
+            NamespacedKey key = new NamespacedKey(main, String.valueOf(Math.random() * 10000000));
+            ShapedRecipe recipe = new ShapedRecipe(key, items.get(i).getBlock(CompactLevel.COMPACTED));
+            recipe.shape("XXX", "XXX", "XXX");
+            recipe.setIngredient('X', new RecipeChoice.ExactChoice(matItem));
+            Bukkit.addRecipe(recipe);
+
+            compactedMaterials.add(items.get(i).getBlock(CompactLevel.COMPACTED).getType());
+
+            Bukkit.getConsoleSender().sendMessage(main.prefix + "Recipe for " +
+                    ChatColor.RED + "COMPACTED " + ChatColor.RED + items.get(i).getName() +
+                    ChatColor.BLUE + " registered.");
+        }
+    }
+
 
 }

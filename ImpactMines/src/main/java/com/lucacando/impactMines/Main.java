@@ -1,17 +1,15 @@
 package com.lucacando.impactMines;
 
+import com.lucacando.impactMines.admin.InvseeCommand;
 import com.lucacando.impactMines.admin.ReloadPlayersCommand;
 import com.lucacando.impactMines.admin.gamemode.GamemodeAdventure;
 import com.lucacando.impactMines.admin.gamemode.GamemodeCreative;
 import com.lucacando.impactMines.admin.gamemode.GamemodeSpectator;
 import com.lucacando.impactMines.admin.gamemode.GamemodeSurvival;
-import com.lucacando.impactMines.shop.CustomRecipes;
-import com.lucacando.impactMines.tools.GiveCompacted;
-import com.lucacando.impactMines.tools.Tool;
-import com.lucacando.impactMines.tools.ToolCommand;
+import com.lucacando.impactMines.shop.*;
+import com.lucacando.impactMines.tools.*;
 import com.lucacando.impactMines.discord.DiscordChatListener;
 import com.lucacando.impactMines.discord.DiscordListener;
-import com.lucacando.impactMines.tools.BlockBreakListener;
 import com.lucacando.impactMines.listeners.ChatListener;
 import com.lucacando.impactMines.listeners.FirstJoinListener;
 import com.lucacando.impactMines.listeners.JoinLeaveListener;
@@ -38,11 +36,10 @@ import com.lucacando.impactMines.punishments.commands.warns.WarnCommand;
 import com.lucacando.impactMines.punishments.commands.warns.WarningsCommand;
 import com.lucacando.impactMines.ranks.Rank;
 import com.lucacando.impactMines.ranks.RankCommand;
-import com.lucacando.impactMines.shop.ChestShopCreation;
 import com.lucacando.impactMines.spawn.SetSpawnCommand;
 import com.lucacando.impactMines.spawn.SpawnCommand;
 import com.lucacando.impactMines.spawn.SpawnListener;
-import com.lucacando.impactMines.tools.enums.ImpactItem;
+import com.lucacando.impactMines.tools.enums.Rarity;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -80,6 +77,9 @@ public final class Main extends JavaPlugin {
     private VaultManager vaultManager;
     private PunishmentManager punishmentManager;
     private CustomRecipes customRecipes;
+    private ShopManager shopManager;
+
+    public List<Shop> shops = new ArrayList<>();
 
     @Override
     public void onEnable() {
@@ -88,6 +88,11 @@ public final class Main extends JavaPlugin {
         registerNoPermissionMessages();
 
         customRecipes = new CustomRecipes(this);
+        getServer().getPluginManager().registerEvents(customRecipes, this);
+
+        shopManager = new ShopManager(this, this);
+        getServer().getPluginManager().registerEvents(new ShopListener(this), this);
+        getCommand("createshop").setExecutor(new ShopCreationCommand(this));
 
         if (!getDataFolder().exists()) getDataFolder().mkdir();
         saveDefaultConfig();
@@ -130,6 +135,7 @@ public final class Main extends JavaPlugin {
         getCommand("gms").setExecutor(new GamemodeSurvival(this, "/gms [<player>]"));
         getCommand("gmsp").setExecutor(new GamemodeSpectator(this, "/gmsp [<player>]"));
         getCommand("gma").setExecutor(new GamemodeAdventure(this, "/gma [<player>]"));
+        getCommand("invsee").setExecutor(new InvseeCommand(this));
 
         getCommand("toolselect").setExecutor(new ToolCommand(this, "/tool [<player>]"));
         getCommand("givecompacted").setExecutor(new GiveCompacted(this));
@@ -140,8 +146,8 @@ public final class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new RankCommand(this), this);
         getServer().getPluginManager().registerEvents(new ToolCommand(this), this);
         getServer().getPluginManager().registerEvents(new BlockBreakListener(this), this);
-        getServer().getPluginManager().registerEvents(new ChestShopCreation(this), this);
         getServer().getPluginManager().registerEvents(new JoinLeaveListener(this), this);
+        getServer().getPluginManager().registerEvents(new BlockPlaceListener(this), this);
 
         JDABuilder builder = JDABuilder.createDefault("MTM2MTEyNjI5ODEwMTA5MjQ5NA.GRVWtK.MDoe5CWJ_S9g97Y8ikuTdkDuUk9xMGgePSi1YY");
         builder.setActivity(Activity.watching("your server."));
@@ -176,6 +182,10 @@ public final class Main extends JavaPlugin {
 
     public PunishmentManager getPunishmentManager() {
         return punishmentManager;
+    }
+
+    public ShopManager getShopManager() {
+        return shopManager;
     }
 
     public void loadMines() {
@@ -329,6 +339,49 @@ public final class Main extends JavaPlugin {
     }
 
     public Tool[] tools = new Tool[] {
+            new Tool(this, Material.WOODEN_AXE, "Wooden Axe", Rarity.WOODEN, 1, 0, 1),
+            new Tool(this, Material.WOODEN_AXE, "Wooden Axe", Rarity.WOODEN, 2, 0, 2),
+
+            new Tool(this, Material.STONE_AXE, "Stone Axe", Rarity.COMMON, 3, 1, 1), //(x)(y)(z) x: eff y: fort z: tier
+            new Tool(this, Material.STONE_AXE, "Stone Axe", Rarity.COMMON, 4, 1, 2),
+
+            new Tool(this, Material.IRON_AXE, "Iron Axe", Rarity.UNCOMMON, 5, 2, 1),
+            new Tool(this, Material.IRON_AXE, "Iron Axe", Rarity.UNCOMMON, 6, 2, 2),
+
+            new Tool(this, Material.GOLDEN_AXE, "Golden Axe", Rarity.UNCOMMON, 7, 3, 1),
+            new Tool(this, Material.GOLDEN_AXE, "Golden Axe", Rarity.RARE, 8, 3, 2),
+
+            new Tool(this, Material.DIAMOND_AXE, "Diamond Axe", Rarity.RARE, 9, 4, 1),
+            new Tool(this, Material.DIAMOND_AXE, "Diamond Axe", Rarity.SUPERIOR, 10, 4, 2),
+
+            new Tool(this, Material.NETHERITE_AXE, "Netherite Axe", Rarity.SUPERIOR, 11, 5, 1),
+            new Tool(this, Material.NETHERITE_AXE, "Netherite Axe", Rarity.MYTHIC, 12, 5, 2),
+
+            new Tool(this, Material.STONE_PICKAXE, "Stone Pickaxe", Rarity.COMMON, 1, 0, 1),
+            new Tool(this, Material.STONE_PICKAXE, "Stone Pickaxe", Rarity.COMMON, 2, 0, 2),
+            new Tool(this, Material.STONE_PICKAXE, "Stone Pickaxe", Rarity.UNCOMMON, 3, 1, 3),
+
+            new Tool(this, Material.IRON_PICKAXE, "Iron Pickaxe", Rarity.COMMON, 4, 1, 1),
+            new Tool(this, Material.IRON_PICKAXE, "Iron Pickaxe", Rarity.COMMON, 5, 1, 2),
+            new Tool(this, Material.IRON_PICKAXE, "Iron Pickaxe", Rarity.UNCOMMON, 5, 2, 3),
+
+            new Tool(this, Material.IRON_PICKAXE, "Copper Pickaxe", Rarity.COMMON, 7, 2, 1),
+            new Tool(this, Material.IRON_PICKAXE, "Copper Pickaxe", Rarity.COMMON, 8, 2, 2),
+            new Tool(this, Material.IRON_PICKAXE, "Copper Pickaxe", Rarity.UNCOMMON, 9, 3, 3),
+
+            new Tool(this, Material.GOLDEN_PICKAXE, "Golden Pickaxe", Rarity.COMMON, 10, 3, 1),
+            new Tool(this, Material.GOLDEN_PICKAXE, "Golden Pickaxe", Rarity.COMMON, 11, 3, 2),
+            new Tool(this, Material.GOLDEN_PICKAXE, "Golden Pickaxe", Rarity.UNCOMMON, 12, 4, 3),
+
+            new Tool(this, Material.GOLDEN_PICKAXE, "Redstone Pickaxe", Rarity.COMMON, 13, 4, 1),
+            new Tool(this, Material.GOLDEN_PICKAXE, "Redstone Pickaxe", Rarity.COMMON, 14, 4, 2),
+            new Tool(this, Material.GOLDEN_PICKAXE, "Redstone Pickaxe", Rarity.UNCOMMON, 15, 5, 3)
+
+    };
+
+
+/*
+    public Tool[] tools = new Tool[] {
             new Tool(this, Material.WOODEN_AXE, ChatColor.GRAY + "Oak Axe", 1, 2, 0, ChatColor.GRAY + "A basic axe made from oak wood."),
             new Tool(this, Material.WOODEN_AXE, ChatColor.GREEN + "Birch Axe", 2, 4, 1, ChatColor.GRAY + "Slightly sharper and faster."),
             new Tool(this, Material.WOODEN_AXE, ChatColor.DARK_GREEN + "Spruce Axe", 3, 6, 1, ChatColor.GRAY + "Chops with better control."),
@@ -356,6 +409,8 @@ public final class Main extends JavaPlugin {
             new Tool(this, Material.NETHERITE_PICKAXE, ChatColor.AQUA + "" + ChatColor.BOLD + "Lunar Pickaxe", 38, 55, 7, ChatColor.GRAY + "Draws strength from moonlight."),
             new Tool(this, Material.NETHERITE_PICKAXE, ChatColor.DARK_RED + "" + ChatColor.BOLD + "Ωmega Pickaxe", 50, 70, 8, ChatColor.GRAY + "The final pick. Beyond comprehension.")
     };
+
+ */
 
     public Location getSpawn() {
         Location spawnLoc = new Location(

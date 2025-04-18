@@ -1,6 +1,7 @@
 package com.lucacando.impactMines.tools;
 
 import com.lucacando.impactMines.Main;
+import com.lucacando.impactMines.tools.enums.Rarity;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -18,17 +19,20 @@ public class Tool {
     private final ItemStack item;
     private final Main main;
 
-    public Tool(Main main, Material material, String name, int miningPower, int efficiencyLevel, int fortuneLevel, String... lore) {
+    // new Tool(this, Material.WOODEN_AXE, "Wooden Axe", Rarity.COMMON, 1, 0, 1);
+    public Tool(Main main, Material material, String name, Rarity rarity, int efficiencyLevel, int fortuneLevel, int tier) {
         this.main = main;
         this.item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(name);
+        meta.setDisplayName("§8§l[§eT" + tier + "§8§l] " + rarity.getColor() + name);
 
         // Lore
-        List<String> itemLore = main.stringsToLore(lore);
+        List<String> itemLore = new ArrayList<>();
         itemLore.add(ChatColor.GREEN + " ");
-        itemLore.add(ChatColor.BLUE + "Fortune: " + ChatColor.GOLD + fortuneLevel);
-        itemLore.add(ChatColor.BLUE + "Mining Power: " + ChatColor.RED + miningPower);
+        if (efficiencyLevel > 0) itemLore.add("§8§l⏩ §aEfficiency " + efficiencyLevel);
+        if (fortuneLevel > 0) itemLore.add("§8§l⏩ §bFortune "  + fortuneLevel);
+        if (fortuneLevel + efficiencyLevel > 0) itemLore.add(ChatColor.GOLD + " ");
+        itemLore.add(rarity.getName());
         meta.setLore(itemLore);
 
         meta.setUnbreakable(true);
