@@ -62,6 +62,8 @@ import java.util.*;
 
 public final class Main extends JavaPlugin {
 
+    private final DISCORD_TOKEN = "token goes here";
+    
     public Map<String, Command> knownCommands;
     public Map<UUID, UUID> selectedTemp = new HashMap<>();
     public String prefix = ChatColor.translateAlternateColorCodes('&',
@@ -149,7 +151,7 @@ public final class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new JoinLeaveListener(this), this);
         getServer().getPluginManager().registerEvents(new BlockPlaceListener(this), this);
 
-        JDABuilder builder = JDABuilder.createDefault("MTM2MTEyNjI5ODEwMTA5MjQ5NA.GRVWtK.MDoe5CWJ_S9g97Y8ikuTdkDuUk9xMGgePSi1YY");
+        JDABuilder builder = JDABuilder.createDefault(DISCORD_TOKEN);
         builder.setActivity(Activity.watching("your server."));
         builder.setStatus(OnlineStatus.ONLINE);
         builder.addEventListeners(new DiscordListener());
